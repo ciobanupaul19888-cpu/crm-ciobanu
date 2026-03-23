@@ -1,1 +1,46 @@
 
+function salveaza() {
+    let nume = document.getElementById("nume").value;
+    let telefon = document.getElementById("telefon").value;
+    let buget = document.getElementById("buget").value;
+
+    let lead = { nume, telefon, buget };
+
+    let leaduri = JSON.parse(localStorage.getItem("leaduri")) || [];
+    leaduri.push(lead);
+
+    localStorage.setItem("leaduri", JSON.stringify(leaduri));
+
+    afiseaza();
+}
+
+function afiseaza() {
+    let lista = document.getElementById("lista");
+    lista.innerHTML = "";
+
+    let leaduri = JSON.parse(localStorage.getItem("leaduri")) || [];
+
+    leaduri.forEach(l => {
+        let li = document.createElement("li");
+
+        let text = document.createElement("span");
+        text.textContent = l.nume + " - " + l.telefon + " - " + l.buget + " ";
+
+        let btn = document.createElement("button");
+        btn.textContent = "WhatsApp";
+
+        let mesaj = "Buna " + l.nume + "! Te contactez de la CIOBANU Real Estate.";
+
+        btn.onclick = function() {
+            window.open("https://wa.me/" + l.telefon + "?text=" + encodeURIComponent(mesaj));
+        };
+
+        li.appendChild(text);
+        li.appendChild(btn);
+
+        lista.appendChild(li);
+    });
+}
+
+// se încarcă automat la deschidere
+window.onload = afiseaza;
