@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -16,13 +17,32 @@ input { padding: 8px; width: 200px; }
 <h1>CIOBANU Real Estate CRM</h1>
 
 <h2>Lead nou</h2>
-<input placeholder="Nume"><br><br>
-<input placeholder="Telefon"><br><br>
-<input placeholder="Buget"><br><br>
+<input id="nume" placeholder="Nume"><br><br>
+<input id="telefon" placeholder="Telefon"><br><br>
+<input id="buget" placeholder="Buget"><br><br>
 
-<button onclick="alert('Lead salvat!')">Salvează</button>
+<button onclick="salveaza()">Salvează</button>
+
+<h2>Lead-uri salvate</h2>
+<ul id="lista"></ul>
 
 </div>
+
+<script>
+function salveaza() {
+    let nume = document.getElementById("nume").value;
+    let telefon = document.getElementById("telefon").value;
+    let buget = document.getElementById("buget").value;
+
+    let lead = nume + " - " + telefon + " - " + buget;
+
+    let lista = document.getElementById("lista");
+    let li = document.createElement("li");
+    li.textContent = lead;
+
+    lista.appendChild(li);
+}
+</script>
 
 </body>
 </html>
