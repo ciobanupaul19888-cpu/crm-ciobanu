@@ -106,7 +106,63 @@ function afiseazaProp() {
         lista.appendChild(li);
     });
 }
-    
+  <h2>Lead Credit</h2>
+<input id="numeCredit" placeholder="Nume"><br><br>
+<input id="telefonCredit" placeholder="Telefon"><br><br>
+<input id="suma" placeholder="Sumă dorită"><br><br>
+
+<select id="tipCredit">
+  <option>Credit ipotecar</option>
+  <option>Credit nevoi personale</option>
+</select><br><br>
+
+<button onclick="adaugaCredit()">Trimite la credit</button>
+
+<h2>Lead-uri Credite</h2>
+<ul id="listaCredite"></ul>
+      function adaugaCredit() {
+    let nume = document.getElementById("numeCredit").value;
+    let telefon = document.getElementById("telefonCredit").value;
+    let suma = document.getElementById("suma").value;
+    let tip = document.getElementById("tipCredit").value;
+
+    let credit = { nume, telefon, suma, tip };
+
+    let credite = JSON.parse(localStorage.getItem("credite")) || [];
+    credite.push(credit);
+
+    localStorage.setItem("credite", JSON.stringify(credite));
+
+    afiseazaCredite();
+}
+
+function afiseazaCredite() {
+    let lista = document.getElementById("listaCredite");
+    lista.innerHTML = "";
+
+    let credite = JSON.parse(localStorage.getItem("credite")) || [];
+
+    credite.forEach(c => {
+        let li = document.createElement("li");
+
+        let text = document.createElement("span");
+        text.textContent = c.nume + " - " + c.telefon + " - " + c.suma + "€ - " + c.tip + " ";
+
+        let btn = document.createElement("button");
+        btn.textContent = "WhatsApp";
+
+        let mesaj = "Buna " + c.nume + "! Te contactez pentru cererea ta de credit.";
+
+        btn.onclick = function() {
+            window.open("https://wa.me/" + c.telefon + "?text=" + encodeURIComponent(mesaj));
+        };
+
+        li.appendChild(text);
+        li.appendChild(btn);
+
+        lista.appendChild(li);
+    });
+}
 window.onload = afiseaza;
 </script>
 
