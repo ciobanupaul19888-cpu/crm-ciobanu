@@ -163,7 +163,11 @@ function afiseazaCredite() {
         lista.appendChild(li);
     });
 }
-window.onload = afiseaza;
+window.onload = function() {
+    afiseaza();
+    afiseazaProp();
+    afiseazaCredite();
+};
 </script>
 
 </body>
