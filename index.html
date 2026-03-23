@@ -1,34 +1,4 @@
 
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-<meta charset="UTF-8">
-<title>CIOBANU Real Estate CRM</title>
-<style>
-body { font-family: Arial; background: #0f172a; color: white; text-align: center; }
-.container { margin-top: 50px; }
-button { padding: 10px 20px; margin: 10px; background: #2563eb; color: white; border: none; }
-input { padding: 8px; width: 200px; }
-</style>
-</head>
-<body>
-
-<div class="container">
-<h1>CIOBANU Real Estate CRM</h1>
-
-<h2>Lead nou</h2>
-<input id="nume" placeholder="Nume"><br><br>
-<input id="telefon" placeholder="Telefon"><br><br>
-<input id="buget" placeholder="Buget"><br><br>
-
-<button onclick="salveaza()">Salvează</button>
-
-<h2>Lead-uri salvate</h2>
-<ul id="lista"></ul>
-
-</div>
-
-<script>
 function salveaza() {
     let nume = document.getElementById("nume").value;
     let telefon = document.getElementById("telefon").value;
@@ -38,11 +8,23 @@ function salveaza() {
 
     let lista = document.getElementById("lista");
     let li = document.createElement("li");
-    li.textContent = lead;
+
+    // creează text
+    let text = document.createElement("span");
+    text.textContent = lead + " ";
+
+    // creează buton WhatsApp
+    let btn = document.createElement("button");
+    btn.textContent = "WhatsApp";
+
+    let mesaj = "Buna " + nume + "! Te contactez de la CIOBANU Real Estate pentru proprietatea dorita.";
+
+    btn.onclick = function() {
+        window.open("https://wa.me/" + telefon + "?text=" + encodeURIComponent(mesaj));
+    };
+
+    li.appendChild(text);
+    li.appendChild(btn);
 
     lista.appendChild(li);
 }
-</script>
-
-</body>
-</html>
