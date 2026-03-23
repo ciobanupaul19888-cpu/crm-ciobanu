@@ -79,7 +79,34 @@ function afiseaza() {
         lista.appendChild(li);
     });
 }
+function adaugaProprietate() {
+    let titlu = document.getElementById("titlu").value;
+    let pret = document.getElementById("pret").value;
+    let oras = document.getElementById("oras").value;
 
+    let prop = { titlu, pret, oras };
+
+    let proprietati = JSON.parse(localStorage.getItem("proprietati")) || [];
+    proprietati.push(prop);
+
+    localStorage.setItem("proprietati", JSON.stringify(proprietati));
+
+    afiseazaProp();
+}
+
+function afiseazaProp() {
+    let lista = document.getElementById("listaProp");
+    lista.innerHTML = "";
+
+    let proprietati = JSON.parse(localStorage.getItem("proprietati")) || [];
+
+    proprietati.forEach(p => {
+        let li = document.createElement("li");
+        li.textContent = p.titlu + " - " + p.pret + "€ - " + p.oras;
+        lista.appendChild(li);
+    });
+}
+    
 window.onload = afiseaza;
 </script>
 
