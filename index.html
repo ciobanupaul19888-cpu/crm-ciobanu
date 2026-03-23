@@ -4,27 +4,43 @@ function salveaza() {
     let telefon = document.getElementById("telefon").value;
     let buget = document.getElementById("buget").value;
 
-    let lead = nume + " - " + telefon + " - " + buget;
+    let lead = { nume, telefon, buget };
 
-    let lista = document.getElementById("lista");
-    let li = document.createElement("li");
+    let leaduri = JSON.parse(localStorage.getItem("leaduri")) || [];
+    leaduri.push(lead);
 
-    // creează text
-    let text = document.createElement("span");
-    text.textContent = lead + " ";
+    localStorage.setItem("leaduri", JSON.stringify(leaduri));
 
-    // creează buton WhatsApp
-    let btn = document.createElement("button");
-    btn.textContent = "WhatsApp";
-
-    let mesaj = "Buna " + nume + "! Te contactez de la CIOBANU Real Estate pentru proprietatea dorita.";
-
-    btn.onclick = function() {
-        window.open("https://wa.me/" + telefon + "?text=" + encodeURIComponent(mesaj));
-    };
-
-    li.appendChild(text);
-    li.appendChild(btn);
-
-    lista.appendChild(li);
+    afiseaza();
 }
+
+function afiseaza() {
+    let lista = document.getElementById("lista");
+    lista.innerHTML = "";
+
+    let leaduri = JSON.parse(localStorage.getItem("leaduri")) || [];
+
+    leaduri.forEach(l => {
+        let li = document.createElement("li");
+
+        let text = document.createElement("span");
+        text.textContent = l.nume + " - " + l.telefon + " - " + l.buget + " ";
+
+        let btn = document.createElement("button");
+        btn.textContent = "WhatsApp";
+
+        let mesaj = "Buna " + l.nume + "! Te contactez de la CIOBANU Real Estate.";
+
+        btn.onclick = function() {
+            window.open("https://wa.me/" + l.telefon + "?text=" + encodeURIComponent(mesaj));
+        };
+
+        li.appendChild(text);
+        li.appendChild(btn);
+
+        lista.appendChild(li);
+    });
+}
+
+// se încarcă automat la deschidere
+window.onload = afiseaza;
