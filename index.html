@@ -126,10 +126,24 @@ function afiseazaProp() {
     lista.innerHTML = "";
 
     let proprietati = JSON.parse(localStorage.getItem("proprietati")) || [];
+    let leaduri = JSON.parse(localStorage.getItem("leaduri")) || [];
+
+    let bugetMax = leaduri.length ? parseInt(leaduri[leaduri.length - 1].buget) : 0;
 
     proprietati.forEach(p => {
         let li = document.createElement("li");
-        li.textContent = p.titlu + " - " + p.pret + "€ - " + p.oras;
+
+        let pret = parseInt(p.pret);
+
+        let text = document.createElement("span");
+
+        if (pret <= bugetMax) {
+            text.textContent = "✅ " + p.titlu + " - " + p.pret + "€ - " + p.oras;
+        } else {
+            text.textContent = p.titlu + " - " + p.pret + "€ - " + p.oras;
+        }
+
+        li.appendChild(text);
         lista.appendChild(li);
     });
 }
