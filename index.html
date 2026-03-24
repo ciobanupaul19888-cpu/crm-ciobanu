@@ -73,6 +73,7 @@ function afiseaza() {
         let text = document.createElement("span");
         text.textContent = l.nume + " - " + l.telefon + " - " + l.buget + " ";
 
+        // WhatsApp
         let btn = document.createElement("button");
         btn.textContent = "WhatsApp";
 
@@ -80,8 +81,30 @@ function afiseaza() {
             window.open("https://wa.me/" + l.telefon);
         };
 
+        // Trimite la credit
+        let btnCredit = document.createElement("button");
+        btnCredit.textContent = "Trimite la credit";
+
+        btnCredit.onclick = function() {
+            let credite = JSON.parse(localStorage.getItem("credite")) || [];
+
+            credite.push({
+                nume: l.nume,
+                telefon: l.telefon,
+                suma: l.buget,
+                tip: "Din imobiliare"
+            });
+
+            localStorage.setItem("credite", JSON.stringify(credite));
+
+            alert("Trimis la credit!");
+            afiseazaCredite();
+        };
+
         li.appendChild(text);
         li.appendChild(btn);
+        li.appendChild(btnCredit);
+
         lista.appendChild(li);
     });
 }
