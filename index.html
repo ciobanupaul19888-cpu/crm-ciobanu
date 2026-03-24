@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -8,7 +7,7 @@
 body { font-family: Arial; background: #0f172a; color: white; text-align: center; }
 .container { margin-top: 50px; }
 button { padding: 10px 20px; margin: 10px; background: #2563eb; color: white; border: none; }
-input { padding: 8px; width: 200px; }
+input, select { padding: 8px; width: 200px; }
 </style>
 </head>
 <body>
@@ -20,19 +19,32 @@ input { padding: 8px; width: 200px; }
 <input id="nume" placeholder="Nume"><br><br>
 <input id="telefon" placeholder="Telefon"><br><br>
 <input id="buget" placeholder="Buget"><br><br>
-
 <button onclick="salveaza()">Salvează</button>
+
 <h2>Adaugă proprietate</h2>
 <input id="titlu" placeholder="Titlu"><br><br>
 <input id="pret" placeholder="Preț"><br><br>
 <input id="oras" placeholder="Oraș"><br><br>
-
 <button onclick="adaugaProprietate()">Adaugă</button>
 
 <h2>Proprietăți</h2>
 <ul id="listaProp"></ul>
+
 <h2>Lead-uri salvate</h2>
 <ul id="lista"></ul>
+
+<h2>Lead Credit</h2>
+<input id="numeCredit" placeholder="Nume"><br><br>
+<input id="telefonCredit" placeholder="Telefon"><br><br>
+<input id="suma" placeholder="Sumă"><br><br>
+<select id="tipCredit">
+<option>Credit ipotecar</option>
+<option>Nevoi personale</option>
+</select><br><br>
+<button onclick="adaugaCredit()">Trimite la credit</button>
+
+<h2>Lead-uri Credite</h2>
+<ul id="listaCredite"></ul>
 
 </div>
 
@@ -42,13 +54,10 @@ function salveaza() {
     let telefon = document.getElementById("telefon").value;
     let buget = document.getElementById("buget").value;
 
-    let lead = { nume, telefon, buget };
-
     let leaduri = JSON.parse(localStorage.getItem("leaduri")) || [];
-    leaduri.push(lead);
+    leaduri.push({ nume, telefon, buget });
 
     localStorage.setItem("leaduri", JSON.stringify(leaduri));
-
     afiseaza();
 }
 
@@ -67,30 +76,25 @@ function afiseaza() {
         let btn = document.createElement("button");
         btn.textContent = "WhatsApp";
 
-        let mesaj = "Buna " + l.nume + "! Te contactez de la CIOBANU Real Estate.";
-
         btn.onclick = function() {
-            window.open("https://wa.me/" + l.telefon + "?text=" + encodeURIComponent(mesaj));
+            window.open("https://wa.me/" + l.telefon);
         };
 
         li.appendChild(text);
         li.appendChild(btn);
-
         lista.appendChild(li);
     });
 }
+
 function adaugaProprietate() {
     let titlu = document.getElementById("titlu").value;
     let pret = document.getElementById("pret").value;
     let oras = document.getElementById("oras").value;
 
-    let prop = { titlu, pret, oras };
-
     let proprietati = JSON.parse(localStorage.getItem("proprietati")) || [];
-    proprietati.push(prop);
+    proprietati.push({ titlu, pret, oras });
 
     localStorage.setItem("proprietati", JSON.stringify(proprietati));
-
     afiseazaProp();
 }
 
@@ -106,33 +110,17 @@ function afiseazaProp() {
         lista.appendChild(li);
     });
 }
-  <h2>Lead Credit</h2>
-<input id="numeCredit" placeholder="Nume"><br><br>
-<input id="telefonCredit" placeholder="Telefon"><br><br>
-<input id="suma" placeholder="Sumă dorită"><br><br>
 
-<select id="tipCredit">
-  <option>Credit ipotecar</option>
-  <option>Credit nevoi personale</option>
-</select><br><br>
-
-<button onclick="adaugaCredit()">Trimite la credit</button>
-
-<h2>Lead-uri Credite</h2>
-<ul id="listaCredite"></ul>
-      function adaugaCredit() {
+function adaugaCredit() {
     let nume = document.getElementById("numeCredit").value;
     let telefon = document.getElementById("telefonCredit").value;
     let suma = document.getElementById("suma").value;
     let tip = document.getElementById("tipCredit").value;
 
-    let credit = { nume, telefon, suma, tip };
-
     let credite = JSON.parse(localStorage.getItem("credite")) || [];
-    credite.push(credit);
+    credite.push({ nume, telefon, suma, tip });
 
     localStorage.setItem("credite", JSON.stringify(credite));
-
     afiseazaCredite();
 }
 
@@ -151,18 +139,16 @@ function afiseazaCredite() {
         let btn = document.createElement("button");
         btn.textContent = "WhatsApp";
 
-        let mesaj = "Buna " + c.nume + "! Te contactez pentru cererea ta de credit.";
-
         btn.onclick = function() {
-            window.open("https://wa.me/" + c.telefon + "?text=" + encodeURIComponent(mesaj));
+            window.open("https://wa.me/" + c.telefon);
         };
 
         li.appendChild(text);
         li.appendChild(btn);
-
         lista.appendChild(li);
     });
 }
+
 window.onload = function() {
     afiseaza();
     afiseazaProp();
